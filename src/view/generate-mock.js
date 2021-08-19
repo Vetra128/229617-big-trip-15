@@ -1,22 +1,22 @@
 import dayjs from 'dayjs';
-import {TYPES, CITIES, FILTERS, MENU, SORT_LIST} from '../const';
+import {EVENT_TYPES, CITIES, FILTERS, MENU, SORT_LIST} from '../const';
 import {getRandomInteger} from '../utils';
 
 const generateDate = () => {
 
-  const maxDaysGap = 7;
-  const maxHoursGap = 23;
-  const maxMinutesGap = 59;
-  const daysGap = getRandomInteger(0, maxDaysGap);
-  const hoursGap = getRandomInteger(0, maxHoursGap);
-  const minutesGap = getRandomInteger(0, maxMinutesGap);
+  const MAX_DAYS_GAP = 7;
+  const MAX_HOURS_GAP = 23;
+  const MAX_MINUTE_GAP = 59;
+  const daysGap = getRandomInteger(0, MAX_DAYS_GAP);
+  const hoursGap = getRandomInteger(0, MAX_HOURS_GAP);
+  const minutesGap = getRandomInteger(0, MAX_MINUTE_GAP);
   return dayjs().add(daysGap, 'day').add(hoursGap, 'hour').add(minutesGap, 'minute');
 };
 
 const getRandomType = () => {
-  const randomIndex = getRandomInteger(0, TYPES.length - 1);
+  const randomIndex = getRandomInteger(0, EVENT_TYPES.length - 1);
 
-  return TYPES[randomIndex];
+  return EVENT_TYPES[randomIndex];
 };
 
 const getRandomDestination = () => {
@@ -26,18 +26,18 @@ const getRandomDestination = () => {
 };
 
 const OFFERS_TITLES = ['Add luggage', 'Switch to comfort class', 'Add meal', 'Choose seats', 'Travel by train'];
-const getRandomOffer = () => OFFERS_TITLES.map((item) => ({
+const getRandomOffersList = () => OFFERS_TITLES.map((item) => ({
   title: item,
   price: getRandomInteger(0, 1000),
   isChecked: Boolean(getRandomInteger(0, 1)),
 }));
 
-const getRandomAllOffers = () => TYPES.map((type) => ({
+const getRandomOffersForAllTypes = () => EVENT_TYPES.map((type) => ({
   type: type,
-  offers: getRandomOffer(),
+  offers: getRandomOffersList(),
 }));
 
-const getRandomOffers = (currentType) => getRandomAllOffers().find(({ type }) => type === currentType).offers;
+const getRandomOffersForEvent = (currentType) => getRandomOffersForAllTypes().find(({ type }) => type === currentType).offers;
 
 const getDescription = () => {
   const text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.';
@@ -64,9 +64,7 @@ const generateEvent = () => {
   let date1 = generateDate();
   let date2 = generateDate();
   if (date2.isBefore(date1)) {
-    if (date2.isBefore(date1)) {
-      [date1, date2] = [date2, date1];
-    }
+    [date1, date2] = [date2, date1];
   }
   const type = getRandomType();
   return {
@@ -79,7 +77,7 @@ const generateEvent = () => {
       photos: getPhotos(),
     },
     isFavorite: Boolean(getRandomInteger(0, 1)),
-    offers: getRandomOffers(type),
+    offers: getRandomOffersForEvent(type),
     type: type,
   };
 };

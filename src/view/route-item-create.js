@@ -1,4 +1,4 @@
-import {ucFirst} from '../utils';
+import {firstLitUpperCase} from '../utils';
 
 const eventTypeTemplate = (currentType, types) =>
   `<div class="event__type-list">
@@ -9,7 +9,7 @@ const eventTypeTemplate = (currentType, types) =>
         <input id="event-type-${item}-1" class="event__type-input  visually-hidden" type="radio"
                name="event-type" value="${item}" ${currentType===item ? 'checked' : ''}>
           <label class="event__type-label  event__type-label--${item}"
-                 for="event-type-${item}-1">${ucFirst(item)}</label>
+                 for="event-type-${item}-1">${firstLitUpperCase(item)}</label>
       </div>`)).join('')}
     </fieldset>
   </div>`;
@@ -34,7 +34,7 @@ const offersTemplate = (offers) => !offers ? ''
                 <span class="event__offer-price">${item.price}</span>
               </label>
             </div>`;
-  }).join('')};
+  }).join('')}
         </div>
         </section>`;
 
@@ -66,7 +66,7 @@ export const routeItemCreate = (item, types, cities) => `<li class="trip-events_
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${ucFirst(item.type)}
+            ${firstLitUpperCase(item.type)}
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${item.destination}" list="destination-list-1">
           ${destinationListTemplate(cities)}

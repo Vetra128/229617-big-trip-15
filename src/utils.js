@@ -6,7 +6,7 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-const ucFirst = (str) => {
+const firstLitUpperCase = (str) => {
   if (!str) {return str;}
 
   return str[0].toUpperCase() + str.slice(1);
@@ -33,10 +33,9 @@ const dateDuration = (dateFrom, dateTo) => {
         value = `0${value}`;
       }
       return `${value}${key} `;
-    }
+    } else { return '';}
   }).join('');
-
   return formatedDuration;
 };
 
-export {getRandomInteger, ucFirst, dateDuration};
+export {getRandomInteger, firstLitUpperCase, dateDuration};

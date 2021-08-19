@@ -1,7 +1,9 @@
-export const menu = () => (
+import {ucFirst} from '../utils';
+
+export const menu = (currentMenu, menuList) => (
   `<nav class="trip-controls__trip-tabs  trip-tabs">
-    <a class="trip-tabs__btn" href="#">Table</a>
-    <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Stats</a>
+    ${menuList.map((item) =>
+    (`<a class="trip-tabs__btn  ${currentMenu===item ? 'trip-tabs__btn--active' : ''}" href="#">${ucFirst(item)}</a>` )).join('')}
   </nav>`
 );
 

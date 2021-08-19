@@ -1,10 +1,6 @@
 import dayjs from 'dayjs';
-
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
+import {TYPES, CITIES, FILTERS, MENU, SORT_LIST} from '../const';
+import {getRandomInteger} from '../utils';
 
 const generateDate = () => {
 
@@ -17,15 +13,11 @@ const generateDate = () => {
   return dayjs().add(daysGap, 'day').add(hoursGap, 'hour').add(minutesGap, 'minute');
 };
 
-const TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
-
 const getRandomType = () => {
   const randomIndex = getRandomInteger(0, TYPES.length - 1);
 
   return TYPES[randomIndex];
 };
-
-const CITIES = ['Moscow', 'Novosibirsk', 'Yekaterinburg', 'Kazan', 'Chelyabinsk', 'Samara', 'Omsk', 'Ufa'];
 
 const getRandomDestination = () => {
   const randomIndex = getRandomInteger(0, CITIES.length - 1);
@@ -34,15 +26,11 @@ const getRandomDestination = () => {
 };
 
 const OFFERS_TITLES = ['Add luggage', 'Switch to comfort class', 'Add meal', 'Choose seats', 'Travel by train'];
-const getRandomOffer = () => {
-  // const shuffled = OFFERS_TITLES.sort(() => 0.5 - Math.random());
-  // const selected = shuffled.slice(0, getRandomInteger(0, OFFERS_TITLES.length - 1));
-  return OFFERS_TITLES.map((item) => ({
-    title: item,
-    price: getRandomInteger(0, 1000),
-    isChecked: Boolean(getRandomInteger(0, 1)),
-  }));
-};
+const getRandomOffer = () => OFFERS_TITLES.map((item) => ({
+  title: item,
+  price: getRandomInteger(0, 1000),
+  isChecked: Boolean(getRandomInteger(0, 1)),
+}));
 
 const getRandomAllOffers = () => TYPES.map((type) => ({
   type: type,
@@ -50,10 +38,7 @@ const getRandomAllOffers = () => TYPES.map((type) => ({
 }));
 
 const getRandomOffers = (currentType) => {
-  const allOffers = getRandomAllOffers().find(({ type }) => type === currentType).offers;
-  // const offersNumber = getRandomInteger(0, allOffers.length);
-  // return allOffers.slice(0, offersNumber);
-  return allOffers;
+  return getRandomAllOffers().find(({ type }) => type === currentType).offers;
 };
 
 const getDescription = () => {
@@ -101,4 +86,20 @@ const generateEvent = () => {
   };
 };
 
-export {generateEvent, getRandomInteger, TYPES, CITIES};
+const getCurrentFilter = () => FILTERS[getRandomInteger(0, FILTERS.length - 1)];
+const getCurrentSort = () => {
+  const stateArray = ['', 'checked', 'disabled'];
+  return SORT_LIST.map((item) => ({
+    title: item,
+    state: stateArray[getRandomInteger(0, stateArray.length - 1)],
+  }));
+};
+const getCurrentMenuItem = () => MENU[getRandomInteger(0, MENU.length - 1)];
+
+const getAppState = () => ({
+  filter: getCurrentFilter(),
+  sort: getCurrentSort(),
+  menu: getCurrentMenuItem(),
+});
+
+export {generateEvent, getAppState};

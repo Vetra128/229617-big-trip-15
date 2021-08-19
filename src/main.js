@@ -5,7 +5,9 @@ import {routeList} from './view/route-list';
 import {routeItem} from './view/route-item';
 import {routeItemCreate} from './view/route-item-create';
 import {routeItemEdit} from './view/route-item-edit';
-import {generateEvent, getRandomInteger, TYPES, CITIES} from './view/generate-mock';
+import {generateEvent, getAppState} from './view/generate-mock';
+import {TYPES, CITIES, FILTERS, MENU} from './const';
+import {getRandomInteger} from './utils';
 
 const ROUTE_ITEM_COUNTER = getRandomInteger(15, 20);
 
@@ -15,16 +17,18 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
+const appState = getAppState();
+
 const siteMainElement = document.querySelector('.trip-main');
 
 const siteNavigationElement = siteMainElement.querySelector('.trip-controls__navigation');
-render(siteNavigationElement, menu(), 'beforeend');
+render(siteNavigationElement, menu(appState.menu, MENU), 'beforeend');
 
 const siteFilterElement = siteMainElement.querySelector('.trip-controls__filters');
-render(siteFilterElement, filter(), 'beforeend');
+render(siteFilterElement, filter(appState.filter, FILTERS), 'beforeend');
 
 const siteTripEvents = document.querySelector('.trip-events');
-render(siteTripEvents, sorting(), 'beforeend');
+render(siteTripEvents, sorting(appState.sort), 'beforeend');
 
 render(siteTripEvents, routeList(), 'beforeend');
 

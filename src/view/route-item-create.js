@@ -1,8 +1,4 @@
-const ucFirst = (str) => {
-  if (!str) {return str;}
-
-  return str[0].toUpperCase() + str.slice(1);
-};
+import {ucFirst} from '../utils';
 
 const eventTypeTemplate = (currentType, types) =>
   `<div class="event__type-list">

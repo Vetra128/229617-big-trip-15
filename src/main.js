@@ -11,7 +11,7 @@ import {getRandomInteger} from './utils';
 
 const ROUTE_ITEM_COUNTER = getRandomInteger(15, 20);
 
-const eventsList = new Array(ROUTE_ITEM_COUNTER).fill().map(generateEvent);
+const events = new Array(ROUTE_ITEM_COUNTER).fill().map(generateEvent);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -34,7 +34,7 @@ render(siteTripEvents, routeList(), 'beforeend');
 
 const siteTripEventsItem = document.querySelector('.trip-events__list');
 for (let i = 0; i < ROUTE_ITEM_COUNTER; i++) {
-  render(siteTripEventsItem, routeItem(eventsList[i]), 'beforeend');
+  render(siteTripEventsItem, routeItem(events[i]), 'beforeend');
 }
 
 render(siteTripEventsItem, routeItemCreate(generateEvent(), EVENT_TYPES, CITIES), 'afterbegin');

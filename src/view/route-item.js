@@ -1,4 +1,4 @@
-import {dateDuration} from '../utils';
+import {dateDuration, createElement} from '../utils';
 
 const offersTemplate = (offers) =>
   !offers.filter((item) => item.isChecked)
@@ -13,7 +13,7 @@ const offersTemplate = (offers) =>
   </li>` : '')).join('')}
     </ul>`;
 
-export const routeItem = (item) => {
+const routeItemTemplate = (item) => {
   const duration = dateDuration(item.dateFrom, item.dateTo);
   return `<li class="trip-events__item">
     <div class="event">
@@ -46,3 +46,26 @@ export const routeItem = (item) => {
     </div>
   </li>`;
 };
+
+export default class RouteItem {
+  constructor(itemData) {
+    this._element = null;
+    this._itemData = itemData;
+  }
+
+  getTemplate() {
+    return routeItemTemplate(this._itemData);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

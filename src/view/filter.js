@@ -1,6 +1,6 @@
-import {firstLitUpperCase} from '../utils';
+import {createElement, firstLitUpperCase} from '../utils';
 
-export const filter = (currentFilter, filters) => (
+const filterTemplate = (currentFilter, filters) => (
   `<form class="trip-filters" action="#" method="get">
     ${filters.map((item) =>
     (`<div class="trip-filters__filter">
@@ -10,3 +10,27 @@ export const filter = (currentFilter, filters) => (
      <button class="visually-hidden" type="submit">Accept filter</button>
   </form>`
 );
+
+export default class Filter {
+  constructor(currentFilter, filters) {
+    this._element = null;
+    this._currentFilter = currentFilter;
+    this._filters = filters;
+  }
+
+  getTemplate() {
+    return filterTemplate(this._currentFilter, this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

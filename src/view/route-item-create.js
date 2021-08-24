@@ -1,4 +1,4 @@
-import {firstLitUpperCase} from '../utils';
+import {firstLitUpperCase, createElement} from '../utils';
 
 const eventTypeTemplate = (currentType, types) =>
   `<div class="event__type-list">
@@ -52,7 +52,7 @@ const destinationInfoTemplate = (info) => (!info.description && !info.photos) ? 
        </section>`;
 
 
-export const routeItemCreate = (item, types, cities) => `<li class="trip-events__item">
+const routeItemCreateTemplate = (item, types, cities) => `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -96,3 +96,28 @@ export const routeItemCreate = (item, types, cities) => `<li class="trip-events_
         ${destinationInfoTemplate(item.destinationInfo)}
      </form>
    </li>`;
+
+export default class RouteItemCreate {
+  constructor(itemData, types, cities) {
+    this._element = null;
+    this._itemData = itemData;
+    this._types = types;
+    this._cities = cities;
+  }
+
+  getTemplate() {
+    return routeItemCreateTemplate(this._itemData, this._types, this._cities);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

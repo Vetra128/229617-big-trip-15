@@ -31,8 +31,9 @@ const renderRouteBoard = (boardContainer, routes) => {
     const routeItemComponent = new RouteItemView(event);
     const routeItemEditComponent = new RouteItemEditView(generateEvent(), EVENT_TYPES, CITIES);
 
-    const routeItemRollBtn = routeItemComponent.getElement().querySelector('.event__rollup-btn');
+    const routeItemRollDownBtn = routeItemComponent.getElement().querySelector('.event__rollup-btn');
     const routeItemEditForm = routeItemEditComponent.getElement().querySelector('form');
+    const routeItemRollUpBtn = routeItemEditComponent.getElement().querySelector('.event__rollup-btn');
 
     const replaceItemToForm = () => {
       routeList.getElement().replaceChild(routeItemEditComponent.getElement(), routeItemComponent.getElement());
@@ -41,15 +42,30 @@ const renderRouteBoard = (boardContainer, routes) => {
       routeList.getElement().replaceChild(routeItemComponent.getElement(), routeItemEditComponent.getElement());
     };
 
+    const onEscKeyDown = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        replaceFormToItem();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+
     render(routeList.getElement(), routeItemComponent.getElement(), RenderPosition.BEFOREEND);
 
-    routeItemRollBtn.addEventListener('click', () => {
+    routeItemRollDownBtn.addEventListener('click', () => {
       replaceItemToForm();
+      document.addEventListener('keydown', onEscKeyDown);
+    });
+
+    routeItemRollUpBtn.addEventListener('click', () => {
+      replaceFormToItem();
+      document.removeEventListener('keydown', onEscKeyDown);
     });
 
     routeItemEditForm.addEventListener('submit', (evt) => {
       evt.preventDefault();
       replaceFormToItem();
+      document.removeEventListener('keydown', onEscKeyDown);
     });
   };
   for (const val of routes) {

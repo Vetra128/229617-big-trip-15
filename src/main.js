@@ -22,7 +22,7 @@ const siteNavigationElement = siteMainElement.querySelector('.trip-controls__nav
 const siteFilterElement = siteMainElement.querySelector('.trip-controls__filters');
 const siteTripEvents = document.querySelector('.trip-events');
 
-const routeBoard = (boardContainer, routes) => {
+const renderRouteBoard = (boardContainer, routes) => {
   const routeList = new RouteListView();
   render(boardContainer, new SortingView(appState.sort).getElement(), RenderPosition.BEFOREEND);
   render(boardContainer, routeList.getElement(), RenderPosition.BEFOREEND);
@@ -52,16 +52,15 @@ const routeBoard = (boardContainer, routes) => {
       replaceFormToItem();
     });
   };
-
-  for (let i = 0; i < ROUTE_ITEM_COUNTER; i++) {
-    renderEvent(routes[i]);
+  for (const val of routes) {
+    renderEvent(val);
   }
 };
+render(siteFilterElement, new FilterView(appState.filter, FILTERS).getElement(), RenderPosition.BEFOREEND);
+render(siteNavigationElement, new MenuView(appState.menu, MENU).getElement(), RenderPosition.BEFOREEND);
 
 if (events.length === 0) {
   render(siteTripEvents, new NoEventView().getElement(), RenderPosition.BEFOREEND);
 } else {
-  render(siteFilterElement, new FilterView(appState.filter, FILTERS).getElement(), RenderPosition.BEFOREEND);
-  render(siteNavigationElement, new MenuView(appState.menu, MENU).getElement(), RenderPosition.BEFOREEND);
-  routeBoard(siteTripEvents, events);
+  renderRouteBoard(siteTripEvents, events);
 }

@@ -16,37 +16,26 @@ export const render = (container, element, place) => {
   }
 };
 
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
-// Принцип работы прост:
-// 1. создаём пустой div-блок
-// 2. берём HTML в виде строки и вкладываем в этот div-блок, превращая в DOM-элемент
-// 3. возвращаем этот DOM-элемент
 export const createElement = (template) => {
   const newElement = document.createElement('div');
   newElement.innerHTML = template;
 
   return newElement.firstChild;
 };
-// Единственный нюанс, что HTML в строке должен иметь общую обёртку,
-// то есть быть чем-то вроде <nav><a>Link 1</a><a>Link 2</a></nav>,
-// а не просто <a>Link 1</a><a>Link 2</a>
 
-const getRandomInteger = (a = 0, b = 1) => {
+export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-const firstLitUpperCase = (str) => {
+export const firstLitUpperCase = (str) => {
   if (!str) {return str;}
 
   return str[0].toUpperCase() + str.slice(1);
 };
 
-const dateDuration = (dateFrom, dateTo) => {
+export const dateDuration = (dateFrom, dateTo) => {
   const days = dayjs(dateTo).diff(dayjs(dateFrom), 'd');
   const hours = dayjs(dateTo).diff(dayjs(dateFrom), 'h');
   const minutes = dayjs(dateTo).diff(dayjs(dateFrom), 'm');
@@ -71,5 +60,3 @@ const dateDuration = (dateFrom, dateTo) => {
   }).join('');
   return formatedDuration;
 };
-
-export {getRandomInteger, firstLitUpperCase, dateDuration};

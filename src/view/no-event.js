@@ -1,17 +1,18 @@
-import { createElement } from '../utils';
+import {createElement} from '../utils.js';
 
-const routeListTemplate = () => (
-  `<ul class="trip-events__list">
-  </ul>`
+const createNoTaskTemplate = () => (
+  `<p class="trip-events__msg">
+Click New Event to create your first point
+</p>`
 );
 
-export default class RouteList {
+export default class NoEvent {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return routeListTemplate();
+    return createNoTaskTemplate();
   }
 
   getElement() {

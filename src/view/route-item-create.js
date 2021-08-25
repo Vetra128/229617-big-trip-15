@@ -1,58 +1,9 @@
-import {firstLitUpperCase} from '../utils';
+import {firstLitUpperCase, createElement} from '../utils';
+import EventTypeView from './event-type';
+import DestinationListView from './destination-list';
+import EventDetailsView from './event-details';
 
-const eventTypeTemplate = (currentType, types) =>
-  `<div class="event__type-list">
-    <fieldset class="event__type-group">
-      <legend class="visually-hidden">Event type</legend>
-      ${types.map((item) =>
-    (`<div class="event__type-item">
-        <input id="event-type-${item}-1" class="event__type-input  visually-hidden" type="radio"
-               name="event-type" value="${item}" ${currentType===item ? 'checked' : ''}>
-          <label class="event__type-label  event__type-label--${item}"
-                 for="event-type-${item}-1">${firstLitUpperCase(item)}</label>
-      </div>`)).join('')}
-    </fieldset>
-  </div>`;
-
-const destinationListTemplate = (cities) =>
-  `<datalist id="destination-list-1">
-            ${cities.map((item) =>
-    (`<option value="${item}"></option>`)).join('')}
-          </datalist>`;
-
-const offersTemplate = (offers) => !offers ? ''
-  : `<section class="event__section  event__section--offers">
-        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-        <div class="event__available-offers">
-        ${offers.map((item) => {
-    const classTemp = item.title.split(' ').pop().toLowerCase();
-    return `<div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-${classTemp}-1" type="checkbox" name="event-offer-${classTemp}" ${item.isChecked ? 'checked' : ''}>
-              <label class="event__offer-label" for="event-offer-${classTemp}-1">
-                <span class="event__offer-title">${item.title}</span>
-                &plus;&euro;&nbsp;
-                <span class="event__offer-price">${item.price}</span>
-              </label>
-            </div>`;
-  }).join('')}
-        </div>
-        </section>`;
-
-const destinationInfoTemplate = (info) => (!info.description && !info.photos) ? ''
-  : `<section class="event__section  event__section--destination">
-          <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${info.description.join(' ')}</p>
-           ${(!info.photos.length) ? ''
-    :`<div class="event__photos-container">
-             <div class="event__photos-tape">
-             ${info.photos.map((item) => (`<img class="event__photo" src="${item.url}" alt="${item.alt}">`)).join('')}
-             </div>
-           </div>`}
-         </section>
-       </section>`;
-
-
-export const routeItemCreate = (item, types, cities) => `<li class="trip-events__item">
+const routeItemCreateTemplate = (item, types, cities) => `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -61,7 +12,7 @@ export const routeItemCreate = (item, types, cities) => `<li class="trip-events_
             <img class="event__type-icon" width="17" height="17" src="img/icons/${item.type}.png" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
-          ${eventTypeTemplate(item.type, types)}
+          ${new EventTypeView(item.type, types).getTemplate()}
         </div>
 
         <div class="event__field-group  event__field-group--destination">
@@ -69,7 +20,7 @@ export const routeItemCreate = (item, types, cities) => `<li class="trip-events_
             ${firstLitUpperCase(item.type)}
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${item.destination}" list="destination-list-1">
-          ${destinationListTemplate(cities)}
+          ${new DestinationListView(cities).getTemplate()}
         </div>
 
         <div class="event__field-group  event__field-group--time">
@@ -91,8 +42,31 @@ export const routeItemCreate = (item, types, cities) => `<li class="trip-events_
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Cancel</button>
       </header>
-      <section class="event__details">
-        ${offersTemplate(item.offers)}
-        ${destinationInfoTemplate(item.destinationInfo)}
+      ${new EventDetailsView(item).getTemplate()}
      </form>
    </li>`;
+
+export default class RouteItemCreate {
+  constructor(itemData, types, cities) {
+    this._element = null;
+    this._itemData = itemData;
+    this._types = types;
+    this._cities = cities;
+  }
+
+  getTemplate() {
+    return routeItemCreateTemplate(this._itemData, this._types, this._cities);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

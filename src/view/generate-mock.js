@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {EVENT_TYPES, CITIES, FILTERS, MENU, SORT_LIST} from '../const';
+import {EVENT_TYPES, CITIES, FILTERS, MENU, SORTS} from '../const';
 import {getRandomInteger} from '../utils';
 
 const generateDate = () => {
@@ -85,7 +85,7 @@ const generateEvent = () => {
 const getCurrentFilter = () => FILTERS[getRandomInteger(0, FILTERS.length - 1)];
 const getCurrentSort = () => {
   const stateArray = ['', 'checked', 'disabled'];
-  return SORT_LIST.map((item) => ({
+  return SORTS.map((item) => ({
     title: item,
     state: stateArray[getRandomInteger(0, stateArray.length - 1)],
   }));

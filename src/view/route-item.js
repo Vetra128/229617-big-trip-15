@@ -1,17 +1,5 @@
 import {dateDuration, createElement} from '../utils';
-
-const offersTemplate = (offers) =>
-  !offers.filter((item) => item.isChecked)
-    ? ''
-    : `<h4 class="visually-hidden">Offers:</h4>
-      <ul class="event__selected-offers">
-    ${offers.map(({ title, price, isChecked }) =>
-    (isChecked ? `<li class="event__offer">
-    <span class="event__offer-title">${title}</span>
-    &plus;&euro;&nbsp;
-    <span class="event__offer-price">${price}</span>
-  </li>` : '')).join('')}
-    </ul>`;
+import EventOffersView from './event-offers';
 
 const routeItemTemplate = (item) => {
   const duration = dateDuration(item.dateFrom, item.dateTo);
@@ -33,7 +21,7 @@ const routeItemTemplate = (item) => {
       <p class="event__price">
         &euro;&nbsp;<span class="event__price-value">${item.basePrice}</span>
       </p>
-      ${offersTemplate(item.offers)}
+      ${new EventOffersView(item.offers).getTemplate()}
       <button class="event__favorite-btn  ${item.isFavorite ? 'event__favorite-btn--active' : ''}" type="button">
         <span class="visually-hidden">Add to favorite</span>
         <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">

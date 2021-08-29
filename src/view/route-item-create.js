@@ -1,4 +1,4 @@
-import {firstLitUpperCase} from '../utils';
+import {firstLitUpperCase} from '../utils/common';
 import EventTypeView from './event-type';
 import DestinationListView from './destination-list';
 import EventDetailsView from './event-details';

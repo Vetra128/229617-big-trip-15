@@ -7,7 +7,8 @@ import RouteItemEditView from './view/route-item-edit';
 import NoEventView from './view/no-event';
 import {generateEvent, getAppState} from './view/generate-mock';
 import {EVENT_TYPES, CITIES, FILTERS, MENU} from './const';
-import {getRandomInteger, render, RenderPosition} from './utils';
+import {render, RenderPosition} from './utils/render';
+import {getRandomInteger} from './utils/common';
 
 const ROUTE_ITEM_COUNTER = getRandomInteger(15, 20);
 
@@ -31,10 +32,6 @@ const renderRouteBoard = (boardContainer, routes) => {
     const routeItemComponent = new RouteItemView(event);
     const routeItemEditComponent = new RouteItemEditView(generateEvent(), EVENT_TYPES, CITIES);
 
-    const routeItemRollDownBtn = routeItemComponent.getElement().querySelector('.event__rollup-btn');
-    const routeItemEditForm = routeItemEditComponent.getElement().querySelector('form');
-    const routeItemRollUpBtn = routeItemEditComponent.getElement().querySelector('.event__rollup-btn');
-
     const replaceItemToForm = () => {
       routeList.getElement().replaceChild(routeItemEditComponent.getElement(), routeItemComponent.getElement());
     };
@@ -52,18 +49,17 @@ const renderRouteBoard = (boardContainer, routes) => {
 
     render(routeList.getElement(), routeItemComponent.getElement(), RenderPosition.BEFOREEND);
 
-    routeItemRollDownBtn.addEventListener('click', () => {
+    routeItemComponent.setRollDownBtnClickHandler(() => {
       replaceItemToForm();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    routeItemRollUpBtn.addEventListener('click', () => {
+    routeItemEditComponent.setRollUpBtnClickHandler(() => {
       replaceFormToItem();
       document.removeEventListener('keydown', onEscKeyDown);
     });
 
-    routeItemEditForm.addEventListener('submit', (evt) => {
-      evt.preventDefault();
+    routeItemEditComponent.setFormSubmitClickHandler(() => {
       replaceFormToItem();
       document.removeEventListener('keydown', onEscKeyDown);
     });

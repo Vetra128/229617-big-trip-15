@@ -1,4 +1,4 @@
-import {firstLitUpperCase} from '../utils';
+import {firstLitUpperCase} from '../utils/common';
 import AbstractView from './abstract.js';
 
 const menuTemplate = (currentMenu, menu) => (

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import {EVENT_TYPES, CITIES, FILTERS, MENU, SORTS} from '../const';
-import {getRandomInteger} from '../utils';
+import {getRandomInteger} from '../utils/common';
 
 const generateDate = () => {
 

@@ -1,4 +1,4 @@
-import {firstLitUpperCase} from '../utils';
+import {firstLitUpperCase} from '../utils/common';
 import DestinationListView from './destination-list';
 import EventTypeView from './event-type';
 import EventDetailsView from './event-details';
@@ -58,9 +58,32 @@ export default class RouteItemEdit extends AbstractView{
     this._itemData = itemData;
     this._types = types;
     this._cities = cities;
+
+    this._rollUpBtnClickHandler = this._rollUpBtnClickHandler.bind(this);
+    this._formSubmitClickHandler = this._formSubmitClickHandler.bind(this);
   }
 
   getTemplate() {
     return routeItemEditTemplate(this._itemData, this._types, this._cities);
+  }
+
+  _rollUpBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.rollUpClick();
+  }
+
+  _formSubmitClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmitClick();
+  }
+
+  setRollUpBtnClickHandler(callback) {
+    this._callback.rollUpClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._rollUpBtnClickHandler);
+  }
+
+  setFormSubmitClickHandler(callback) {
+    this._callback.formSubmitClick = callback;
+    this.getElement().querySelector('form').addEventListener('submit', this._formSubmitClickHandler);
   }
 }

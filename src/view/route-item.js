@@ -1,4 +1,4 @@
-import {dateDuration} from '../utils';
+import {dateDuration} from '../utils/event';
 import EventOffersView from './event-offers';
 import AbstractView from './abstract.js';
 
@@ -40,9 +40,21 @@ export default class RouteItem extends AbstractView{
   constructor(itemData) {
     super();
     this._itemData = itemData;
+
+    this._rollDownBtnClickHandler = this._rollDownBtnClickHandler.bind(this);
   }
 
   getTemplate() {
     return routeItemTemplate(this._itemData);
+  }
+
+  _rollDownBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.rollDownClick();
+  }
+
+  setRollDownBtnClickHandler(callback) {
+    this._callback.rollDownClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._rollDownBtnClickHandler);
   }
 }

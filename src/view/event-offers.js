@@ -1,4 +1,4 @@
-import { createElement } from '../utils';
+import AbstractView from './abstract.js';
 
 const eventOffersTemplate = (offers) =>
   !offers.filter((item) => item.isChecked)
@@ -14,25 +14,13 @@ const eventOffersTemplate = (offers) =>
     </ul>`;
 
 
-export default class EventOffers {
+export default class EventOffers extends AbstractView{
   constructor(offers) {
-    this._element = null;
+    super();
     this._offers = offers;
   }
 
   getTemplate() {
     return eventOffersTemplate(this._offers);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

@@ -1,7 +1,8 @@
-import {firstLitUpperCase, createElement} from '../utils';
+import {firstLitUpperCase} from '../utils';
 import DestinationListView from './destination-list';
 import EventTypeView from './event-type';
 import EventDetailsView from './event-details';
+import AbstractView from './abstract.js';
 
 const routeItemEditTemplate = (item, types, cities) => (
   `<li class="trip-events__item">
@@ -51,9 +52,9 @@ const routeItemEditTemplate = (item, types, cities) => (
   </li>`
 );
 
-export default class RouteItemEdit {
+export default class RouteItemEdit extends AbstractView{
   constructor(itemData, types, cities) {
-    this._element = null;
+    super();
     this._itemData = itemData;
     this._types = types;
     this._cities = cities;
@@ -61,17 +62,5 @@ export default class RouteItemEdit {
 
   getTemplate() {
     return routeItemEditTemplate(this._itemData, this._types, this._cities);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

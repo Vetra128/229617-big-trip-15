@@ -1,4 +1,5 @@
-import {createElement, firstLitUpperCase} from '../utils';
+import {firstLitUpperCase} from '../utils';
+import AbstractView from './abstract.js';
 
 const eventTypeTemplate = (currentType, types) =>
   `<div class="event__type-list">
@@ -14,26 +15,14 @@ const eventTypeTemplate = (currentType, types) =>
     </fieldset>
   </div>`;
 
-export default class EventType {
+export default class EventType extends AbstractView{
   constructor(currentType, types) {
-    this._element = null;
+    super();
     this._currentType = currentType;
     this._types = types;
   }
 
   getTemplate() {
     return eventTypeTemplate(this._currentType, this._types);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

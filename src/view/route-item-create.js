@@ -1,7 +1,8 @@
-import {firstLitUpperCase, createElement} from '../utils';
+import {firstLitUpperCase} from '../utils';
 import EventTypeView from './event-type';
 import DestinationListView from './destination-list';
 import EventDetailsView from './event-details';
+import AbstractView from './abstract.js';
 
 const routeItemCreateTemplate = (item, types, cities) => `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
@@ -46,9 +47,9 @@ const routeItemCreateTemplate = (item, types, cities) => `<li class="trip-events
      </form>
    </li>`;
 
-export default class RouteItemCreate {
+export default class RouteItemCreate extends AbstractView{
   constructor(itemData, types, cities) {
-    this._element = null;
+    super();
     this._itemData = itemData;
     this._types = types;
     this._cities = cities;
@@ -56,17 +57,5 @@ export default class RouteItemCreate {
 
   getTemplate() {
     return routeItemCreateTemplate(this._itemData, this._types, this._cities);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

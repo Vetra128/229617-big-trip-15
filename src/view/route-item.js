@@ -1,5 +1,6 @@
-import {dateDuration, createElement} from '../utils';
+import {dateDuration} from '../utils';
 import EventOffersView from './event-offers';
+import AbstractView from './abstract.js';
 
 const routeItemTemplate = (item) => {
   const duration = dateDuration(item.dateFrom, item.dateTo);
@@ -35,25 +36,13 @@ const routeItemTemplate = (item) => {
   </li>`;
 };
 
-export default class RouteItem {
+export default class RouteItem extends AbstractView{
   constructor(itemData) {
-    this._element = null;
+    super();
     this._itemData = itemData;
   }
 
   getTemplate() {
     return routeItemTemplate(this._itemData);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

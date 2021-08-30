@@ -7,7 +7,7 @@ import RouteItemEditView from './view/route-item-edit';
 import NoEventView from './view/no-event';
 import {generateEvent, getAppState} from './view/generate-mock';
 import {EVENT_TYPES, CITIES, FILTERS, MENU} from './const';
-import {render, RenderPosition} from './utils/render';
+import {render, replace, RenderPosition} from './utils/render';
 import {getRandomInteger} from './utils/common';
 
 const ROUTE_ITEM_COUNTER = getRandomInteger(15, 20);
@@ -25,18 +25,18 @@ const siteTripEvents = document.querySelector('.trip-events');
 
 const renderRouteBoard = (boardContainer, routes) => {
   const routeList = new RouteListView();
-  render(boardContainer, new SortingView(appState.sort).getElement(), RenderPosition.BEFOREEND);
-  render(boardContainer, routeList.getElement(), RenderPosition.BEFOREEND);
+  render(boardContainer, new SortingView(appState.sort), RenderPosition.BEFOREEND);
+  render(boardContainer, routeList, RenderPosition.BEFOREEND);
 
   const renderEvent = (event) => {
     const routeItemComponent = new RouteItemView(event);
-    const routeItemEditComponent = new RouteItemEditView(generateEvent(), EVENT_TYPES, CITIES);
+    const routeItemEditComponent = new RouteItemEditView(event, EVENT_TYPES, CITIES);
 
     const replaceItemToForm = () => {
-      routeList.getElement().replaceChild(routeItemEditComponent.getElement(), routeItemComponent.getElement());
+      replace(routeItemEditComponent, routeItemComponent);
     };
     const replaceFormToItem = () => {
-      routeList.getElement().replaceChild(routeItemComponent.getElement(), routeItemEditComponent.getElement());
+      replace(routeItemComponent, routeItemEditComponent);
     };
 
     const onEscKeyDown = (evt) => {
@@ -47,7 +47,7 @@ const renderRouteBoard = (boardContainer, routes) => {
       }
     };
 
-    render(routeList.getElement(), routeItemComponent.getElement(), RenderPosition.BEFOREEND);
+    render(routeList, routeItemComponent, RenderPosition.BEFOREEND);
 
     routeItemComponent.setRollDownBtnClickHandler(() => {
       replaceItemToForm();
@@ -68,11 +68,11 @@ const renderRouteBoard = (boardContainer, routes) => {
     renderEvent(val);
   }
 };
-render(siteFilterElement, new FilterView(appState.filter, FILTERS).getElement(), RenderPosition.BEFOREEND);
-render(siteNavigationElement, new MenuView(appState.menu, MENU).getElement(), RenderPosition.BEFOREEND);
+render(siteFilterElement, new FilterView(appState.filter, FILTERS), RenderPosition.BEFOREEND);
+render(siteNavigationElement, new MenuView(appState.menu, MENU), RenderPosition.BEFOREEND);
 
 if (events.length === 0) {
-  render(siteTripEvents, new NoEventView().getElement(), RenderPosition.BEFOREEND);
+  render(siteTripEvents, new NoEventView(), RenderPosition.BEFOREEND);
 } else {
   renderRouteBoard(siteTripEvents, events);
 }

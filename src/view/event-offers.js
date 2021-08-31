@@ -1,6 +1,6 @@
 import AbstractView from './abstract.js';
 
-const eventOffersTemplate = (offers) =>
+const createEventOffersTemplate = (offers) =>
   !offers.filter((item) => item.isChecked)
     ? ''
     : `<h4 class="visually-hidden">Offers:</h4>
@@ -21,6 +21,6 @@ export default class EventOffers extends AbstractView{
   }
 
   getTemplate() {
-    return eventOffersTemplate(this._offers);
+    return createEventOffersTemplate(this._offers);
   }
 }

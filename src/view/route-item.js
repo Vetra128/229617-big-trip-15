@@ -2,7 +2,7 @@ import {dateDuration} from '../utils/event';
 import EventOffersView from './event-offers';
 import AbstractView from './abstract.js';
 
-const routeItemTemplate = (item) => {
+const createRouteItemTemplate = (item) => {
   const duration = dateDuration(item.dateFrom, item.dateTo);
   return `<li class="trip-events__item">
     <div class="event">
@@ -45,7 +45,7 @@ export default class RouteItem extends AbstractView{
   }
 
   getTemplate() {
-    return routeItemTemplate(this._itemData);
+    return createRouteItemTemplate(this._itemData);
   }
 
   _rollDownBtnClickHandler(evt) {

@@ -4,7 +4,7 @@ import DestinationListView from './destination-list';
 import EventDetailsView from './event-details';
 import AbstractView from './abstract.js';
 
-const routeItemCreateTemplate = (item, types, cities) => `<li class="trip-events__item">
+const createRouteItemCreateTemplate = (item, types, cities) => `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -56,6 +56,6 @@ export default class RouteItemCreate extends AbstractView{
   }
 
   getTemplate() {
-    return routeItemCreateTemplate(this._itemData, this._types, this._cities);
+    return createRouteItemCreateTemplate(this._itemData, this._types, this._cities);
   }
 }

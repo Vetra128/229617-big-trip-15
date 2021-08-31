@@ -1,6 +1,6 @@
 import AbstractView from './abstract.js';
 
-const destinationListTemplate = (cities) =>
+const createDestinationListTemplate = (cities) =>
   `<datalist id="destination-list-1">
             ${cities.map((item) =>
     (`<option value="${item}"></option>`)).join('')}
@@ -13,6 +13,6 @@ export default class DestinationList extends AbstractView{
   }
 
   getTemplate() {
-    return destinationListTemplate(this._cities);
+    return createDestinationListTemplate(this._cities);
   }
 }

@@ -2,7 +2,7 @@ import AbstractView from './abstract.js';
 import OffersView from './offers';
 import DestinationInfoView from './destination-info';
 
-const eventDetailsTemplate = (item) => (!item.offers && !item.destinationInfo.description) ? ''
+const createEventDetailsTemplate = (item) => (!item.offers && !item.destinationInfo.description) ? ''
   : `<section class="event__details">
         ${new OffersView(item.offers).getTemplate()}
         ${new DestinationInfoView(item.destinationInfo).getTemplate()}
@@ -15,6 +15,6 @@ export default class EventDetails extends AbstractView{
   }
 
   getTemplate() {
-    return eventDetailsTemplate(this._item);
+    return createEventDetailsTemplate(this._item);
   }
 }

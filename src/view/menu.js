@@ -1,7 +1,7 @@
 import {firstLitUpperCase} from '../utils/common';
 import AbstractView from './abstract.js';
 
-const menuTemplate = (currentMenu, menu) => (
+const createMenuTemplate = (currentMenu, menu) => (
   `<nav class="trip-controls__trip-tabs  trip-tabs">
     ${menu.map((item) =>
     (`<a class="trip-tabs__btn${currentMenu===item ? ' trip-tabs__btn--active' : ''}" href="#">${firstLitUpperCase(item)}</a>` )).join('')}
@@ -16,6 +16,6 @@ export default class Menu extends AbstractView{
   }
 
   getTemplate() {
-    return menuTemplate(this._currentMenu, this._menu);
+    return createMenuTemplate(this._currentMenu, this._menu);
   }
 }

@@ -4,7 +4,7 @@ import EventTypeView from './event-type';
 import EventDetailsView from './event-details';
 import AbstractView from './abstract.js';
 
-const routeItemEditTemplate = (item, types, cities) => (
+const createRouteItemEditTemplate = (item, types, cities) => (
   `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
@@ -64,7 +64,7 @@ export default class RouteItemEdit extends AbstractView{
   }
 
   getTemplate() {
-    return routeItemEditTemplate(this._itemData, this._types, this._cities);
+    return createRouteItemEditTemplate(this._itemData, this._types, this._cities);
   }
 
   _rollUpBtnClickHandler(evt) {

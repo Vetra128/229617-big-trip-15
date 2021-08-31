@@ -1,7 +1,7 @@
 import {firstLitUpperCase} from '../utils/common';
 import AbstractView from './abstract.js';
 
-const sortingTemplate = (list) => (
+const createSortingTemplate = (list) => (
   `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
  ${list.map(({title, state}) =>
     (`<div class="trip-sort__item  trip-sort__item--${title}">
@@ -18,6 +18,6 @@ export default class Sorting extends AbstractView{
   }
 
   getTemplate() {
-    return sortingTemplate(this._sortList);
+    return createSortingTemplate(this._sortList);
   }
 }

@@ -1,6 +1,6 @@
 import AbstractView from './abstract.js';
 
-const destinationInfoTemplate = (info) => (!info.description && !info.photos) ? ''
+const createDestinationInfoTemplate = (info) => (!info.description && !info.photos) ? ''
   : `<section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
           <p class="event__destination-description">${info.description.join(' ')}</p>
@@ -20,6 +20,6 @@ export default class DestinationInfo extends AbstractView{
   }
 
   getTemplate() {
-    return destinationInfoTemplate(this._info);
+    return createDestinationInfoTemplate(this._info);
   }
 }

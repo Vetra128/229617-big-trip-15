@@ -1,7 +1,7 @@
 import {firstLitUpperCase} from '../utils/common';
 import AbstractView from './abstract.js';
 
-const eventTypeTemplate = (currentType, types) =>
+const createEventTypeTemplate = (currentType, types) =>
   `<div class="event__type-list">
     <fieldset class="event__type-group">
       <legend class="visually-hidden">Event type</legend>
@@ -23,6 +23,6 @@ export default class EventType extends AbstractView{
   }
 
   getTemplate() {
-    return eventTypeTemplate(this._currentType, this._types);
+    return createEventTypeTemplate(this._currentType, this._types);
   }
 }

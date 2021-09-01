@@ -1,30 +1,18 @@
-import {createElement} from '../utils';
+import AbstractView from './abstract.js';
 
-const destinationListTemplate = (cities) =>
+const createDestinationListTemplate = (cities) =>
   `<datalist id="destination-list-1">
             ${cities.map((item) =>
     (`<option value="${item}"></option>`)).join('')}
           </datalist>`;
 
-export default class DestinationList {
+export default class DestinationList extends AbstractView{
   constructor(cities) {
-    this._element = null;
+    super();
     this._cities = cities;
   }
 
   getTemplate() {
-    return destinationListTemplate(this._cities);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return createDestinationListTemplate(this._cities);
   }
 }

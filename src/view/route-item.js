@@ -1,7 +1,8 @@
-import {dateDuration, createElement} from '../utils';
+import {dateDuration} from '../utils/event';
 import EventOffersView from './event-offers';
+import AbstractView from './abstract.js';
 
-const routeItemTemplate = (item) => {
+const createRouteItemTemplate = (item) => {
   const duration = dateDuration(item.dateFrom, item.dateTo);
   return `<li class="trip-events__item">
     <div class="event">
@@ -35,25 +36,25 @@ const routeItemTemplate = (item) => {
   </li>`;
 };
 
-export default class RouteItem {
+export default class RouteItem extends AbstractView{
   constructor(itemData) {
-    this._element = null;
+    super();
     this._itemData = itemData;
+
+    this._rollDownBtnClickHandler = this._rollDownBtnClickHandler.bind(this);
   }
 
   getTemplate() {
-    return routeItemTemplate(this._itemData);
+    return createRouteItemTemplate(this._itemData);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _rollDownBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.rollDownClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setRollDownBtnClickHandler(callback) {
+    this._callback.rollDownClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._rollDownBtnClickHandler);
   }
 }

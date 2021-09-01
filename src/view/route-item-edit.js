@@ -1,9 +1,10 @@
-import {firstLitUpperCase, createElement} from '../utils';
+import {firstLitUpperCase} from '../utils/common';
 import DestinationListView from './destination-list';
 import EventTypeView from './event-type';
 import EventDetailsView from './event-details';
+import AbstractView from './abstract.js';
 
-const routeItemEditTemplate = (item, types, cities) => (
+const createRouteItemEditTemplate = (item, types, cities) => (
   `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
@@ -51,27 +52,38 @@ const routeItemEditTemplate = (item, types, cities) => (
   </li>`
 );
 
-export default class RouteItemEdit {
+export default class RouteItemEdit extends AbstractView{
   constructor(itemData, types, cities) {
-    this._element = null;
+    super();
     this._itemData = itemData;
     this._types = types;
     this._cities = cities;
+
+    this._rollUpBtnClickHandler = this._rollUpBtnClickHandler.bind(this);
+    this._formSubmitClickHandler = this._formSubmitClickHandler.bind(this);
   }
 
   getTemplate() {
-    return routeItemEditTemplate(this._itemData, this._types, this._cities);
+    return createRouteItemEditTemplate(this._itemData, this._types, this._cities);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _rollUpBtnClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.rollUpClick();
   }
 
-  removeElement() {
-    this._element = null;
+  _formSubmitClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmitClick();
+  }
+
+  setRollUpBtnClickHandler(callback) {
+    this._callback.rollUpClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._rollUpBtnClickHandler);
+  }
+
+  setFormSubmitClickHandler(callback) {
+    this._callback.formSubmitClick = callback;
+    this.getElement().querySelector('form').addEventListener('submit', this._formSubmitClickHandler);
   }
 }
